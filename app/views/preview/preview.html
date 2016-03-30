@@ -1,13 +1,13 @@
-<div class="preview-wrapper">
-  <div class="dirty-message" ng-if="isDirty">
-    This preview is out of date. Please <a ng-click="loadLatest()">reload</a> to see the latest.
+<div class="preview-wrapper" ng-show="loading && !error">
+  <div class="loader">
+    <img src="/images/preload.gif"/>
+    <div>Loading <br>documentation</div>
   </div>
-
-  <ng-include
-    src="'templates/error-presenter.html'"
-    ng-controller="ErrorPresenterCtrl"
-    ng-if="errors.length || warnings.length">
-  </ng-include>
+</div>
+<div class="preview-wrapper error" ng-show="error">
+  Error obtaining the documentation. Please try later.
+</div>
+<div class="preview-wrapper" ng-show="!loading && !error">
 
   <ng-include src="'templates/specs-info.html'"></ng-include>
 
@@ -75,13 +75,7 @@
             class="definition-title">
             {{modelName}}
           </a>
-          <a
-            class="jump-to-yaml"
-            ng-click="focusEdit($event, ['definitions', modelName])"
-            tooltip-placement="left"
-            tooltip="Jump to YAML"
-            tooltip-trigger="mouseenter">
-          </a>
+
         </h4>
         <div collapse-when="model.$folded">
           <schema-model schema="model"></schema-model>

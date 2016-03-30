@@ -33,7 +33,7 @@
   "keyPressDebounceTime": 200,
   "backendEndpoint": "/editor/spec",
   "useYamlBackend": false,
-  "disableFileMenu": false,
+  "disableFileMenu": true,
   "headerBranding": false,
   "disableNewUserIntro": false,
   "enableTryIt": true,

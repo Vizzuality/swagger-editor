@@ -1,41 +1,60 @@
 @import "../colors";
 @import "../fonts";
-
 .preview.pane {
   .sw-font;
+  .loader {
+    display: inline;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    float: left;
+    margin-left: -80px;
+    margin-top: -65px;
+    text-align: center;
+    img {
+      margin: 0 auto;
+      display: block;
+    }
+    div{
+      margin-top: 10px;
+      font-size: 20px;
+    }
+  }
+
+  .error{
+    padding: 10px;
+    border: 1px solid #f00;
+    background: rgba(255, 0, 0, 0.1);
+    color: #f00;
+
+  }
 
   .dirty-message {
     background: @dirty-msg;
-    padding: .3em;
+    padding: 0.3em;
   }
-
   .section-header {
     a {
       cursor: pointer;
       color: @gray-dk;
-
       &:hover {
         text-decoration: none;
         border-bottom: 1px dotted @silver;
       }
     }
-
     .on-hover {
       display: none;
       font-size: 14px;
     }
-
     &:hover .on-hover {
       display: inline-block;
     }
   }
-
   .section-content {
     margin-left: 10px;
     list-style: none;
     padding-left: 0;
   }
-
   .definition {
     h4 {
       .jump-to-yaml {
@@ -45,20 +64,18 @@
         right: 0;
         padding: 0.3em;
         -webkit-user-select: none;
-           -moz-user-select: none;
-            -ms-user-select: none;
-                user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
         font-size: 0.8em;
         display: inline-block;
         height: 19px;
         width: 22px;
         color: @gray-md;
         background-image: url("../images/jump-icon.svg");
-      }      
+      }
     }
-
   }
-
   .definition-title {
     color: @gray-dk;
   }

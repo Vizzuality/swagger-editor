@@ -3,7 +3,6 @@
 window.SwaggerEditor = angular.module('SwaggerEditor', [
   'ngSanitize',
   'ui.router',
-  'ui.ace',
   'ui.bootstrap',
   'ngStorage',
   'ngSanitize',

@@ -16,10 +16,6 @@ SwaggerEditor.config(function Router($compileProvider, $stateProvider,
         templateUrl: 'views/header/header.html',
         controller: 'HeaderCtrl'
       },
-      'editor@home': {
-        templateUrl: 'views/editor/editor.html',
-        controller: 'EditorCtrl'
-      },
       'preview@home': {
         templateUrl: 'views/preview/preview.html',
         controller: 'PreviewCtrl'

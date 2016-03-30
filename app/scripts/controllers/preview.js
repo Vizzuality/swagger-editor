@@ -1,8 +1,8 @@
 'use strict';
 
-SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
-  ASTManager, Editor, FocusedPath, TagManager, Preferences, FoldStateManager,
-  $scope, $rootScope, $stateParams, $sessionStorage) {
+SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Builder,
+  ASTManager, TagManager, Preferences, FoldStateManager,
+  $scope, $rootScope, $stateParams, $sessionStorage, $http) {
 
   $scope.loadLatest = loadLatest;
   $scope.tagIndexFor = TagManager.tagIndexFor;
@@ -14,13 +14,20 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   $scope.showOperation = showOperation;
   $scope.showDefinitions = showDefinitions;
   $scope.responseCodeClassFor = responseCodeClassFor;
-  $scope.focusEdit = focusEdit;
   $scope.showPath = showPath;
   $scope.foldEditor = FoldStateManager.foldEditor;
   $scope.listAllOperation = listAllOperation;
   $scope.listAllDefnitions = listAllDefnitions;
+  $scope.loading = true;
+  // Storage.addChangeListener('yaml', update);
 
-  Storage.addChangeListener('yaml', update);
+  $http.get('http://192.168.99.100:8000/doc/doc').then(function (data) {
+    var json = JSON.stringify(data.data);
+    Builder.buildDocs(json).then(onBuildSuccess, onBuildFailure);
+    $scope.loading = false;
+  }, function () {
+    $scope.error = true;
+  });
 
   /**
    * Reacts to updates of YAML in storage that usually triggered by editor
@@ -81,11 +88,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
       $rootScope.progressStatus = 'success-process';
     });
 
-    Editor.clearAnnotation();
-
-    _.each(result.warnings, function (warning) {
-      Editor.annotateSwaggerError(warning, 'warning');
-    });
   }
 
   /**
@@ -93,22 +95,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   */
   function onBuildFailure(result) {
     onBuild(result);
-
-    $rootScope.$apply(function () {
-      if (angular.isArray(result.errors)) {
-        if (result.errors[0].yamlError) {
-          Editor.annotateYAMLErrors(result.errors[0].yamlError);
-          $rootScope.progressStatus = 'error-yaml';
-        } else if (result.errors.length) {
-          $rootScope.progressStatus = 'error-swagger';
-          result.errors.forEach(Editor.annotateSwaggerError);
-        } else {
-          $rootScope.progressStatus = 'progress';
-        }
-      } else {
-        $rootScope.progressStatus = 'error-general';
-      }
-    });
   }
 
   /**
@@ -117,23 +103,6 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Storage, Builder,
   function loadLatest() {
     update($rootScope.editorValue, true);
     $rootScope.isDirty = false;
-  }
-
-  /**
-   * Focuses editor to a line that represents that path beginning
-   * @param {AngularEvent} $event - angular event
-   * @param {array} path - an array of keys into specs structure
-  */
-  function focusEdit($event, path) {
-
-    $event.stopPropagation();
-
-    ASTManager.positionRangeForPath($rootScope.editorValue, path)
-    .then(function (range) {
-      Editor.gotoLine(range.start.line);
-      Editor.focus();
-    });
-
   }
 
   /**

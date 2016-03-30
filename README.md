@@ -1,4 +1,4 @@
-# Swagger Editor
+# Swagger Editor (Modified: only generate doc from swagger json)
 
 [![Build Status](https://travis-ci.org/swagger-api/swagger-editor.svg?branch=master)](https://travis-ci.org/swagger-api/swagger-editor)
 [![Code Climate](https://codeclimate.com/github/swagger-api/swagger-editor/badges/gpa.svg)](https://codeclimate.com/github/swagger-api/swagger-editor)
@@ -41,7 +41,7 @@ http-server swagger-editor
 
 #### Building From Source
 
-Make sure you have [Node.js](http://nodejs.org/) installed. 
+Make sure you have [Node.js](http://nodejs.org/) installed.
 
 ```shell
 git clone https://github.com/swagger-api/swagger-editor.git

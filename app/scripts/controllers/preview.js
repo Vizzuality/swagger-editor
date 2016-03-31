@@ -21,10 +21,10 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Builder,
   $scope.loading = true;
   // Storage.addChangeListener('yaml', update);
 
-  $http.get('http://192.168.99.100:8000/doc/doc').then(function (data) {
+  $http.get('/doc/swagger').then(function (data) {
     var json = JSON.stringify(data.data);
     Builder.buildDocs(json).then(onBuildSuccess, onBuildFailure);
-    $scope.loading = false;
+
   }, function () {
     $scope.error = true;
   });
@@ -83,7 +83,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Builder,
   */
   function onBuildSuccess(result) {
     onBuild(result);
-
+    $scope.loading = false;
     $rootScope.$apply(function () {
       $rootScope.progressStatus = 'success-process';
     });
@@ -95,6 +95,8 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Builder,
   */
   function onBuildFailure(result) {
     onBuild(result);
+    $scope.loading = false;
+    $scope.error = true;
   }
 
   /**

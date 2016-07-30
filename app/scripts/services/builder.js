@@ -51,7 +51,8 @@ SwaggerEditor.service('Builder', function Builder(SwayWorker) {
         definition: json
       }, function (data) {
         if (data.errors.length) {
-          reject(data);
+          // reject(data);
+          resolve(data);
         } else {
           resolve(data);
         }

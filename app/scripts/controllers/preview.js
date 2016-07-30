@@ -21,7 +21,7 @@ SwaggerEditor.controller('PreviewCtrl', function PreviewCtrl(Builder,
   $scope.loading = true;
   // Storage.addChangeListener('yaml', update);
 
-  $http.get('/doc/swagger').then(function (data) {
+  $http.get('http://staging-api.globalforestwatch.org/doc/swagger?tag=gfw').then(function (data) {
     var json = JSON.stringify(data.data);
     Builder.buildDocs(json).then(onBuildSuccess, onBuildFailure);
 
